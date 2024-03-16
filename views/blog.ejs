@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body class="bg-dark">
+    <div class="container mx-auto">
+        <div class="bg-white col-6 border border-warning rounded">
+            <h1 class="text-center">Create a Post</h1>
+            <form action="/add-blog" method="post">
+                <label class="form-label mt-2">Post Link:</label>
+                <input id="blogurl" class="form-control" type="text" name="url" required>
+                <label class="form-label mt-2">Post Description:</label>
+                <textarea id="blog_desc" class="form-control" name="desc" required></textarea>
+                <button id="blogBtn" class="btn btn-success w-100 my-4" type="submit" name="blogSubmit">submit</button>
+            </form>
+        </div>
+        <h1 class="m-5 text-white">Posts</h1>
+        <% if (blogs.length > 0) { %>
+            <ul id="Blogs" class="text-white list-group"></ul>
+                <% for (let blog of blogs) { %>
+                <li class="list-group-item">
+                    <div class="border border-white text-white bg-dark">
+                        <img src="<%= blog.image %>" />
+                        <div>User - <%= blog.description %></div>
+                        
+                        <form action="/" method="get">
+                            <button type="submit">Comment</button>
+                            <input type="hidden" name="enableComment" value="<%= blog.id%>"/>
+                        </form>
+                        <% if (enableComment && blogId == blog.id) { %>
+                        <div>
+                            <% for (let comment of comments) { %>
+                                <div>
+                                    <%= comment.comment %>
+                                </div>
+                            <% } %>
+                        </div>
+                        <form action="/blog/comment/<%= blog.id %>" method="post">
+                            <textarea id=c1"" cols="30" rows="10" name="comment"></textarea>
+                            <button type="submit">comment</button>
+                            <input type="hidden" name="blogId" value="<%= blog.id%>"/>
+                        </form>
+                        <% } %>
+                    </div>
+                </li>
+                <% } %>
+        <% } %>
+        
+    </div>
+</body>
+</html>
